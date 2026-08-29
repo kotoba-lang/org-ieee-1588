@@ -1,0 +1,22 @@
+#!/usr/bin/env nbb
+;; Run the suite on the ClojureScript side.
+;;
+;; Not a formality. `ptp.timestamp` shifts and masks 48/64-bit fields
+;; byte-at-a-time specifically because JavaScript's bitwise operators are
+;; 32-bit and signed where the JVM's `bit-shift-left`/`bit-and` work on
+;; 64-bit longs — asserting the round trip actually happens on the V8 side
+;; is the whole point of that namespace's design, not a nice-to-have.
+;;
+;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs
+(ns verify-cljs
+  (:require [clojure.test :as t]
+            [ptp.core-test]))
+
+(defmethod t/report [:cljs.test/default :end-run-tests] [m]
+  (println)
+  (if (t/successful? m)
+    (println "all checks passed on the ClojureScript path")
+    (do (println "FAILED on the ClojureScript path")
+        (js/process.exit 1))))
+
+(t/run-tests 'ptp.core-test)
