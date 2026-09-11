@@ -93,8 +93,8 @@ contract.**
 ## Verify
 
 ```sh
-clojure -M:test                                                       # JVM
-nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljk  # ClojureScript
+kbb -M:test                                                       # JVM
+kbb --backend sci --classpath "$(kbb -A:cljs -Spath)" scripts/verify-cljs.cljk  # ClojureScript
 ```
 
 Real counts as run for this README: **24 tests, 1030 assertions, 0
@@ -117,7 +117,7 @@ Discrimination of the negative-test suite was checked by hand: the
 short-header length guard in `ptp.header/decode-header` was changed from
 `(< (count bs) 34)` to `(< (count bs) 33)`, which makes a 33-byte input
 fall through into field extraction that indexes past the end of the
-vector. `clojure -M:test` then failed with exactly one test —
+vector. `kbb -M:test` then failed with exactly one test —
 `short-header-is-refused` — via a `java.lang.IndexOutOfBoundsException`
 at the changed line, and every other test still passed. The change was
 reverted and the full suite re-run clean before publishing.
