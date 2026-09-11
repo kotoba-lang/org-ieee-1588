@@ -7,7 +7,7 @@
 ;; 64-bit longs — asserting the round trip actually happens on the V8 side
 ;; is the whole point of that namespace's design, not a nice-to-have.
 ;;
-;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljs
+;;   nbb --classpath "$(clojure -A:cljs -Spath)" scripts/verify-cljs.cljk
 (ns verify-cljs
   (:require [clojure.test :as t]
             [ptp.core-test]))
